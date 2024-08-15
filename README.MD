@@ -79,3 +79,7 @@ Cache key: 4aa49235f8a717f647107871ce1a68d1
 Cache file: /var/cache/nginx/1/8d/4aa49235f8a717f647107871ce1a68d1
 Failed to purge cache
 ```
+
+- Even though the cache file for plane.png us here, the cache is not purged
+
+![7.png](images/7.png)

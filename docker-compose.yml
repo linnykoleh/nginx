@@ -1,0 +1,18 @@
+version: '3.6'
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - /var/cache/nginx:/var/cache/nginx
+      - ./static:/static
+      - ./scripts:/scripts
+    networks:
+      - webnet
+
+networks:
+  webnet:
+

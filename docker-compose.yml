@@ -4,18 +4,18 @@ services:
     image: nginx:alpine
     container_name: nginx_origin
     volumes:
-      - ./static:/usr/share/nginx/html:ro  # Serve files from the static directory
+      - ./static:/usr/share/nginx/html:ro
       - ./nginx_origin.conf:/etc/nginx/nginx.conf:ro
     ports:
-      - "8081:80"  # Expose the origin server on port 8081
+      - "8081:80"
 
   nginx_cache:
-    image: nginx:alpine
+    image: openresty/openresty:alpine
     container_name: nginx_cache
     depends_on:
       - nginx_origin
     volumes:
-      - ./nginx_cache.conf:/etc/nginx/nginx.conf:ro
-      - ./cache:/var/cache/nginx  # Cache directory
+      - ./nginx_cache.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+      - ./cache:/var/cache/nginx
     ports:
-      - "8080:80"  # Expose the caching proxy on port 8080
+      - "8080:80"

@@ -1,18 +1,21 @@
-version: '3.6'
+version: '3'
 services:
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:80"
-      - "127.0.0.1:8080:8080"
+  nginx_origin:
+    image: nginx:alpine
+    container_name: nginx_origin
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - /var/cache/nginx:/var/cache/nginx
-      - ./static:/static
-      - ./scripts:/scripts
-    networks:
-      - webnet
+      - ./static:/usr/share/nginx/html:ro  # Serve files from the static directory
+      - ./nginx_origin.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8081:80"  # Expose the origin server on port 8081
 
-networks:
-  webnet:
-
+  nginx_cache:
+    image: nginx:alpine
+    container_name: nginx_cache
+    depends_on:
+      - nginx_origin
+    volumes:
+      - ./nginx_cache.conf:/etc/nginx/nginx.conf:ro
+      - ./cache:/var/cache/nginx  # Cache directory
+    ports:
+      - "8080:80"  # Expose the caching proxy on port 8080
